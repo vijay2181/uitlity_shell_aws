@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #install jq utility
-#export RCX_BACKEND=vijay
+#export AWS_BACKEND=vijay
 #export AWS_PROFILE=test
 
 #we got a request to create iam user
