@@ -13,9 +13,9 @@
 
 # read command will prompt you to enter the name of IAM user you wish to create
 echo
-read -r -p "Enter the username to create in $RCX_BACKEND": userName
+read -r -p "Enter the username to create in $AWS_BACKEND": userName
 echo
-echo "enter 'y' to create user $userName in $RCX_BACKEND, or any other key to exit " && echo
+echo "enter 'y' to create user $userName in $AWS_BACKEND, or any other key to exit " && echo
 read status && echo
 #############
 if [ "$status" == "Y" -o "$status"  == "y" ]; then
@@ -52,7 +52,7 @@ if [ "$status" == "Y" -o "$status"  == "y" ]; then
         accountId=$(aws iam list-account-aliases --profile $AWS_PROFILE | jq '.AccountAliases[0]' | tr -d '"')
     fi
     #########################################################
-    echo "CREATED USER $userName SUCCESSFULLY in $RCX_BACKEND"
+    echo "CREATED USER $userName SUCCESSFULLY in $AWS_BACKEND"
     echo
     echo "DO YOU WANT TO ADD $userName TO EXISTING GROUPS ? enter 'y' to continue or enter any key to exit " && echo
     read status && echo
@@ -61,13 +61,13 @@ if [ "$status" == "Y" -o "$status"  == "y" ]; then
         groups=($(aws iam list-groups --profile $AWS_PROFILE --output text | awk {'print $5'}))
         select name in "${groups[@]}"; do
             aws iam add-user-to-group --user-name $userName --group-name $name --profile $AWS_PROFILE
-            echo "YOU HAVE CHOOSEN $name GROUP TO ADD $userName user IN $RCX_BACKEND" && break
+            echo "YOU HAVE CHOOSEN $name GROUP TO ADD $userName user IN $AWS_BACKEND" && break
         done
     fi
     echo
     echo "CREATED "
     #########################################################
-    echo "$RCX_BACKEND AWS Console Access:-"
+    echo "$AWS_BACKEND AWS Console Access:-"
     echo "=============================="
     echo "URL: https://${accountId}.signin.aws.amazon.com/console/"
     echo "username: $userName"
